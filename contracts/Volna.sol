@@ -1,10 +1,23 @@
-
 // SPDX-License-Identifier: MIT
-// Compatible with OpenZeppelin Contracts ^5.4.0
-pragma solidity ^0.8.27;
+pragma solidity ^0.8.20;
 
-import {ERC20} from "@openzeppelin/contracts/token/ERC20/ERC20.sol";
+// Импортируем готовый контракт ERC20 от OpenZeppelin
+import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
 
-contract Volna is ERC20 {
-    constructor() ERC20("Volna", "MTK") {}
+contract SimpleRandomToken is ERC20 {
+    /**
+     * @param _name  Имя токена
+     * @param _symbol Символ токена
+     * @param _initialSupply Начальная эмиссия в целых токенах
+     */
+    constructor(
+        string memory _name,
+        string memory _symbol,
+        uint256 _initialSupply
+    ) ERC20(_name, _symbol) {
+        // Функция _mint сама создаст токены, запишет их на баланс 
+        // и вызовет правильное событие Transfer.
+        // decimals() в OpenZeppelin по умолчанию равно 18.
+        _mint(msg.sender, _initialSupply * 10 ** decimals());
+    }
 }
